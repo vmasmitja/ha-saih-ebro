@@ -5,25 +5,9 @@ from typing import Any
 import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.const import CONF_API_KEY
-from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResult
-from homeassistant.helpers.aiohttp_client import async_get_clientsession
 
-from .const import API_BASE_URL, DOMAIN
-
-
-async def _validate_api_key(hass: HomeAssistant, api_key: str) -> None:
-    """Realiza una llamada simple para validar que la API Key funciona."""
-    params = {
-        "senal": "A027C04TEMPA",
-        "inicio": "",
-        "apikey": api_key,
-    }
-    session = async_get_clientsession(hass)
-    async with session.get(API_BASE_URL, params=params) as resp:
-        if resp.status != 200:
-            raise ValueError(f"HTTP {resp.status}")
-        await resp.json()
+from .const import DOMAIN
 
 
 class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -36,15 +20,13 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             api_key = user_input[CONF_API_KEY]
-            try:
-                await _validate_api_key(self.hass, api_key)
-            except Exception:  # type: ignore[no-untyped-except]
-                errors["base"] = "invalid_api_key"
-            else:
-                return self.async_create_entry(
-                    title="SAIH Ebro",
-                    data={CONF_API_KEY: api_key},
-                )
+            # Por ahora no validamos la API Key en línea desde el flujo de configuración.
+            # Cualquier error de autenticación o red se reflejará después en los logs
+            # y en el estado de los sensores.
+            return self.async_create_entry(
+                title="SAIH Ebro",
+                data={CONF_API_KEY: api_key},
+            )
 
         data_schema = vol.Schema(
             {
