@@ -26,7 +26,9 @@ PLATFORMS: list[str] = ["sensor"]
 class SaihEbroCoordinator(DataUpdateCoordinator[dict[str, Any]]):
     def __init__(self, hass: HomeAssistant, api_key: str) -> None:
         self._api_key = api_key
-        self._session = async_get_clientsession(hass)
+        # SAIH Ebro actualmente presenta problemas de cadena de certificados
+        # intermedios. Usamos verify_ssl=False solo para esta integración.
+        self._session = async_get_clientsession(hass, verify_ssl=False)
         super().__init__(
             hass,
             logging.getLogger(__name__),
