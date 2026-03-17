@@ -1,0 +1,17 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configurar SAIH Ebro",
+        "description": "Introduce tu API Key de SAIH Ebro. En esta versión se utilizará la estación de Tortosa como ejemplo.",
+        "data": {
+          "api_key": "API Key"
+        }
+      }
+    },
+    "error": {
+      "invalid_api_key": "No se ha podido validar la API Key. Revisa el valor."
+    }
+  }
+}
+
