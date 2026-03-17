@@ -8,6 +8,7 @@ Esta primera versión expone sensores para la estación de Tortosa (temperatura 
 
 Esta integración consume datos publicados por **SAIH Ebro** (Sistema Automático de Información Hidrológica del Ebro) a través de su API de Open Data.
 
+- **Titular y propietario de la información y de las marcas asociadas (SAIH Ebro, CHE, etc.)**: [Confederación Hidrográfica del Ebro](https://chebro.es/).
 - **Web SAIH Ebro (estado de cuenca / mapas / recursos)**: `https://www.saihebro.com/homepage/estado-cuenca-ebro`
 - **Área Open Data / login**: `https://www.saihebro.com/datos/opendata`
 
@@ -30,12 +31,18 @@ Unauthorized, use this url (https://www.saihebro.com/datos/opendata), to know ho
 
 ## Logos e imágenes
 
-Esta integración se preparará para incluir:
-- **Un logo propio** del proyecto (para Home Assistant / HACS).
-- Referencias a la identidad visual de SAIH Ebro **solo** de forma compatible con los derechos de marca/autor.
+Esta integración incluye:
+- **Un logo propio** del proyecto (para Home Assistant / HACS), pensado para distinguir claramente la integración de cualquier marca oficial.
+- La posibilidad de **mostrar el logo de SAIH Ebro** como referencia a la fuente de los datos, poniendo siempre de forma visible:
+  - El texto “Datos proporcionados por SAIH Ebro – Confederación Hidrográfica del Ebro”.
+  - Un enlace a `https://chebro.es/` y/o a la web de SAIH Ebro.
 
 En la web de SAIH Ebro se utiliza un logo accesible en formato SVG:
 - `https://www.saihebro.com/images/logo-SAIH-pie.svg`
 
-Recomendación: por defecto **no incluimos** ese archivo dentro del repositorio hasta confirmar que el uso y redistribución del logo está permitido por sus condiciones legales. Mientras tanto, podemos enlazarlo o mantenerlo como recurso opcional.
+Por indicación de SAIH Ebro/CHE en el proceso de alta de la API, se recomienda:
+- Mencionar expresamente a SAIH Ebro / Confederación Hidrográfica del Ebro como **fuente de los datos**.
+- Incluir referencia a `https://chebro.es/` como propietarios de la marca.
+
+En este repositorio no se redistribuye directamente el fichero original del logo, pero se hace referencia a él (y puede mostrarse desde la propia web de SAIH Ebro) junto con el logo propio de la integración.
 

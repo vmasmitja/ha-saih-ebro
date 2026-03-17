@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">HA SAIH Ebro Integration Logo</title>
+  <desc id="desc">Minimal logo for a Home Assistant integration that consumes hydrological data from SAIH Ebro.</desc>
+  <defs>
+    <linearGradient id="waterGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#00a4ff"/>
+      <stop offset="100%" stop-color="#0050b8"/>
+    </linearGradient>
+  </defs>
+  <rect x="32" y="32" width="448" height="448" rx="64" fill="#0b1b33"/>
+  <!-- Stylized river / water -->
+  <path d="M64 352 C 128 320 192 320 256 352 C 320 384 384 384 448 352 L 448 416 C 384 448 320 448 256 416 C 192 384 128 384 64 416 Z"
+        fill="url(#waterGradient)" opacity="0.95"/>
+  <path d="M64 288 C 128 256 192 256 256 288 C 320 320 384 320 448 288"
+        fill="none" stroke="#69c9ff" stroke-width="10" stroke-linecap="round" opacity="0.8"/>
+  <!-- Simple house outline to evoke Home Assistant -->
+  <path d="M160 256 L256 176 L352 256 L352 352 L160 352 Z"
+        fill="none" stroke="#ffffff" stroke-width="12" stroke-linejoin="round"/>
+  <!-- Sensors dots -->
+  <circle cx="208" cy="288" r="10" fill="#ffffff"/>
+  <circle cx="256" cy="256" r="10" fill="#ffffff"/>
+  <circle cx="304" cy="288" r="10" fill="#ffffff"/>
+  <!-- Text tag -->
+  <text x="256" y="126" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="42" fill="#ffffff">
+    SAIH EBRO
+  </text>
+  <text x="256" y="162" text-anchor="middle" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif"
+        font-size="22" fill="#69c9ff" opacity="0.9">
+    Home Assistant
+  </text>
+</svg>
+
