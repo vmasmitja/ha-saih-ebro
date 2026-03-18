@@ -47,23 +47,7 @@
     "error": {
       "station_required": "Debes seleccionar al menos una estación.",
       "category_required": "Debes seleccionar al menos un tipo de datos.",
-      "too_many_signals": "Has seleccionado demasiadas señales."
-    }
-  }
-}
-
-{
-  "config": {
-    "step": {
-      "user": {
-        "title": "Configurar SAIH Ebro",
-        "description": "Introduce tu API Key de SAIH Ebro. En esta versión se utilizará la estación de Tortosa como ejemplo.",
-        "data": {
-          "api_key": "API Key"
-        }
-      }
-    },
-    "error": {
+      "too_many_signals": "Has seleccionado demasiadas señales.",
       "invalid_api_key": "No se ha podido validar la API Key. Revisa el valor."
     }
   }
