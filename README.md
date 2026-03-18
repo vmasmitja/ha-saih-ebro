@@ -1,4 +1,10 @@
-[![SAIH Ebro integration logo](https://raw.githubusercontent.com/vmasmitja/ha-saih-ebro/master/custom_components/saih_ebro/brand/logo.png)](https://www.saihebro.com/homepage/estado-cuenca-ebro)
+<a href="https://www.saihebro.com/homepage/estado-cuenca-ebro" target="_blank" rel="noopener">
+  <img
+    src="https://raw.githubusercontent.com/vmasmitja/ha-saih-ebro/master/custom_components/saih_ebro/brand/logo.png"
+    alt="SAIH Ebro integration logo"
+    style="width: 160px; max-width: 160px; height: auto; display: block; margin: 0 auto;"
+  />
+</a>
 
 [![HACS][hacs-badge]](https://hacs.xyz/)
 [![Home Assistant][ha-badge]](https://www.home-assistant.io/)
@@ -63,7 +69,13 @@ The available measurement families currently exposed by the catalog are:
 
 ### 🌍 Hydrological zones (full basin map + official zones)
 
-![SAIH Ebro hydrological zones map](https://www.saihebro.com/images/mapas_hidrologia/mapaHG.jpg)
+<a href="https://www.saihebro.com/images/mapas_hidrologia/mapaHG.jpg" target="_blank" rel="noopener">
+  <img
+    src="https://raw.githubusercontent.com/vmasmitja/ha-saih-ebro/master/images/mapaHG.jpg"
+    alt="Mapa de zonas hidrológicas SAIH Ebro"
+    style="max-width: 1100px; width: 100%; height: auto; display: block; margin: 0 auto;"
+  />
+</a>
 
 Official hydrological zones used by the integration wizard:
 
@@ -165,7 +177,7 @@ Las familias de medición disponibles en el catálogo son:
   <img
     src="https://raw.githubusercontent.com/vmasmitja/ha-saih-ebro/master/images/mapaHG.jpg"
     alt="Mapa de zonas hidrológicas SAIH Ebro"
-    style="max-width: 1100px; width: 100%; height: auto;"
+    style="max-width: 1100px; width: 100%; height: auto; display: block; margin: 0 auto;"
   />
 </a>
 
