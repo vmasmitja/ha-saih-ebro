@@ -163,7 +163,7 @@ Las familias de medición disponibles en el catálogo son:
 
 <a href="https://www.saihebro.com/images/mapas_hidrologia/mapaHG.jpg" target="_blank" rel="noopener">
   <img
-    src="images/mapaHG.jpg"
+    src="https://raw.githubusercontent.com/vmasmitja/ha-saih-ebro/master/images/mapaHG.jpg"
     alt="Mapa de zonas hidrológicas SAIH Ebro"
     style="max-width: 1100px; width: 100%; height: auto;"
   />
