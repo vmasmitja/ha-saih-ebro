@@ -5,6 +5,8 @@ from typing import Any
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.const import ATTR_ATTRIBUTION
+from homeassistant.helpers.entity import DeviceInfo
 from homeassistant.helpers.entity_platform import AddEntitiesCallback
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
 
@@ -19,6 +21,7 @@ async def async_setup_entry(
 ) -> None:
     coordinator: SaihEbroCoordinator = hass.data[DOMAIN][entry.entry_id]
     entry_id = entry.entry_id
+    entry_title = entry.title
 
     entities: list[SaihEbroSensor] = []
     for signal_id in coordinator.signals:
@@ -27,6 +30,7 @@ async def async_setup_entry(
             SaihEbroSensor(
                 coordinator=coordinator,
                 entry_id=entry_id,
+                entry_title=entry_title,
                 signal_id=signal_id,
                 name=meta.get("name"),
                 unit=meta.get("unit"),
@@ -44,6 +48,7 @@ class SaihEbroSensor(CoordinatorEntity[SaihEbroCoordinator], SensorEntity):
         self,
         coordinator: SaihEbroCoordinator,
         entry_id: str,
+        entry_title: str,
         signal_id: str,
         name: str | None,
         unit: str | None,
@@ -57,6 +62,12 @@ class SaihEbroSensor(CoordinatorEntity[SaihEbroCoordinator], SensorEntity):
         self._attr_unique_id = f"saih_ebro_{entry_id}_{signal_id.lower()}"
         self._attr_native_unit_of_measurement = unit
         self._attr_device_class = device_class
+        self._attr_device_info = DeviceInfo(
+            identifiers={(DOMAIN, entry_id)},
+            name=entry_title or "SAIH Ebro",
+            manufacturer="SAIH Ebro / Confederación Hidrográfica del Ebro",
+            configuration_url="https://www.saihebro.com/homepage/estado-cuenca-ebro",
+        )
 
     @property
     def extra_state_attributes(self) -> dict[str, Any]:
@@ -67,6 +78,7 @@ class SaihEbroSensor(CoordinatorEntity[SaihEbroCoordinator], SensorEntity):
             "raw_unit": item.get("unidades"),
             "timestamp": item.get("fecha"),
             "trend": item.get("tendencia"),
+            ATTR_ATTRIBUTION: "Datos proporcionados por SAIH Ebro – Confederación Hidrográfica del Ebro (CHE)",
         }
 
     @property
@@ -79,4 +91,9 @@ class SaihEbroSensor(CoordinatorEntity[SaihEbroCoordinator], SensorEntity):
             return float(value)
         except (TypeError, ValueError):
             return None
+
+    @property
+    def available(self) -> bool:
+        # Consideramos disponible si tenemos datos para esta señal en el último refresh
+        return self._signal_id in self.coordinator.data
 
