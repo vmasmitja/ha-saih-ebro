@@ -1,48 +1,81 @@
-## Integración SAIH Ebro para Home Assistant
+## SAIH Ebro integration for Home Assistant
 
-Integración personalizada de Home Assistant para obtener datos de la API Open Data de SAIH Ebro (embalses, caudales, niveles, calidad del agua, etc.).
+Integración / Integration for Home Assistant to consume SAIH Ebro Open Data API (reservoirs, river flows and levels, meteorology, water quality, etc.).
 
-Esta primera versión expone sensores para la estación de Tortosa (temperatura del agua, nivel y caudal) y está pensada para evolucionar hacia una integración instalable vía HACS.
+Se distribuye como integración personalizada y está pensada para ser instalable vía HACS.
 
-## Fuente de datos y atribución
+### Overview (English)
 
-Esta integración consume datos publicados por **SAIH Ebro** (Sistema Automático de Información Hidrológica del Ebro) a través de su API de Open Data.
+- **Domain**: `saih_ebro`
+- **Platform**: `sensor`
+- **Data source**: SAIH Ebro Open Data API (`https://www.saihebro.com/datos/opendata`)
+- **What you can do**:
+  - Select **scope** (Río, Embalse, Canal, Meteorología).
+  - Select **hydrological zone** (official H1..H22 / HG map zones).
+  - Pick one or more **stations** and **categories** (level, flow, temperature, etc.).
+  - Optionally refine by individual **signals**.
 
-- **Titular y propietario de la información y de las marcas asociadas (SAIH Ebro, CHE, etc.)**: [Confederación Hidrográfica del Ebro](https://chebro.es/).
-- **Web SAIH Ebro (estado de cuenca / mapas / recursos)**: `https://www.saihebro.com/homepage/estado-cuenca-ebro`
-- **Área Open Data / login**: `https://www.saihebro.com/datos/opendata`
+The config flow is fully localized (Spanish + English). The English strings live in `translations/en.json` and the Spanish ones in `translations/es.json`.
 
-Notas:
-- Los datos mostrados por SAIH Ebro pueden ser **provisionales** y estar sujetos a revisión (ver avisos en su propia web).
-- Esta integración **no está afiliada** oficialmente a SAIH Ebro.
+### Descripción (Español)
 
-## Cómo obtener una API Key
+- **Dominio**: `saih_ebro`  
+- **Plataforma**: `sensor`  
+- **Fuente de datos**: API Open Data de SAIH Ebro (`https://www.saihebro.com/datos/opendata`)
+- **Qué permite**:
+  - Elegir **ámbito** (Río, Embalse, Canal, Meteorología).
+  - Elegir **zona hidrológica oficial** (H1..H22 / HG).
+  - Seleccionar una o varias **estaciones** y **tipos de datos** (nivel, caudal, temperatura, etc.).
+  - Opcionalmente afinar por **señales** concretas.
 
-Para usar la API necesitas una cuenta y que te habiliten acceso a **Open Data API**.
+El asistente de configuración está traducido y pensado para poder proponerse al **core de Home Assistant** sin depender del castellano.
 
-1. Regístrate en: `https://www.saihebro.com/usuarios/registro`
-2. En el formulario, en el campo **Remarks / Observaciones**, indica explícitamente que solicitas acceso a **Open Data API**.
+### Data source & attribution / Fuente de datos y atribución
 
-Si no dispones de API Key (o no está habilitada), la API puede responder con un error similar a:
+This integration consumes data published by **SAIH Ebro** (Sistema Automático de Información Hidrológica del Ebro) through its Open Data API.
+
+- **Owner of the information and associated brands (SAIH Ebro, CHE, etc.)**: [Confederación Hidrográfica del Ebro](https://chebro.es/).
+- **SAIH Ebro web (basin status / maps / resources)**: `https://www.saihebro.com/homepage/estado-cuenca-ebro`
+- **Open Data area / login**: `https://www.saihebro.com/datos/opendata`
+
+Notes:
+- Data shown by SAIH Ebro may be **provisional** and subject to revision (see the notices on their own website).
+- This integration is **not officially affiliated** with SAIH Ebro.
+
+### How to obtain an API Key / Cómo obtener una API Key
+
+To use the API you need an account and explicit access to the **Open Data API**.
+
+1. Register at: `https://www.saihebro.com/usuarios/registro`  
+2. In the form, in the **Remarks / Observaciones** field, explicitly write that you request access to **Open Data API**.
+
+If you do not have an API Key (or it is not enabled), the API may answer with an error similar to:
 
 ```text
 Unauthorized, use this url (https://www.saihebro.com/datos/opendata), to know how to get data from SAIH. You need an account. You can register in url (https://www.saihebro.com/usuarios/registro). In the user registration page, write in the Remarks field that you want to access Open Data API%
 ```
 
-## Logos e imágenes
+### Logos and images / Logos e imágenes
 
-Esta integración incluye:
-- **Un logo propio** del proyecto (para Home Assistant / HACS), pensado para distinguir claramente la integración de cualquier marca oficial.
-- La posibilidad de **mostrar el logo de SAIH Ebro** como referencia a la fuente de los datos, poniendo siempre de forma visible:
-  - El texto “Datos proporcionados por SAIH Ebro – Confederación Hidrográfica del Ebro”.
-  - Un enlace a `https://chebro.es/` y/o a la web de SAIH Ebro.
+This repository is prepared to use:
 
-En la web de SAIH Ebro se utiliza un logo accesible en formato SVG:
+- A **project logo** for the custom integration and HACS (for example: `images/logo.png`).
+- A simpler **icon** for small contexts (for example: `images/icon.png`).
+
+You can place your own PNG/SVG assets in the `images/` folder and reference them from:
+- Home Assistant / HACS metadata (standard `logo.png` / `icon.png` files).
+- This README, with something like:
+  - `![SAIH Ebro integration logo](images/logo.png)`
+
+In addition, you should always mention SAIH Ebro / Confederación Hidrográfica del Ebro as the **data source**, for example:
+
+- Text used in the sensors:  
+  `Datos proporcionados por SAIH Ebro – Confederación Hidrográfica del Ebro (CHE).`
+- Link to `https://chebro.es/` and/or `https://www.saihebro.com/homepage/estado-cuenca-ebro`.
+
+On the SAIH Ebro website there is an official logo available as SVG:
+
 - `https://www.saihebro.com/images/logo-SAIH-pie.svg`
 
-Por indicación de SAIH Ebro/CHE en el proceso de alta de la API, se recomienda:
-- Mencionar expresamente a SAIH Ebro / Confederación Hidrográfica del Ebro como **fuente de los datos**.
-- Incluir referencia a `https://chebro.es/` como propietarios de la marca.
-
-En este repositorio no se redistribuye directamente el fichero original del logo, pero se hace referencia a él (y puede mostrarse desde la propia web de SAIH Ebro) junto con el logo propio de la integración.
+The original logo is **not redistributed** in this repository; instead we just reference it and keep a separate, neutral logo for the Home Assistant integration.
 
