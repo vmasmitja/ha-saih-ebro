@@ -6,6 +6,7 @@ import voluptuous as vol
 from homeassistant import config_entries
 from homeassistant.const import CONF_API_KEY
 from homeassistant.data_entry_flow import FlowResult
+from homeassistant.helpers import config_validation as cv
 
 from .const import (
     CONF_CATEGORIES,
@@ -101,24 +102,21 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             scope=self._data[CONF_SCOPE],
             zone=self._data[CONF_ZONE],
         )
-        station_choices = {
-            s["id"]: f'{s["id"]} – {s["name"]}' for s in stations
-        }
+        station_choices = {s["id"]: f'{s["id"]} – {s["name"]}' for s in stations}
 
         if user_input is not None:
             station_ids: list[str] = user_input.get(CONF_STATION_IDS, [])
             if not station_ids:
                 errors[CONF_STATION_IDS] = "station_required"
+            elif len(station_ids) > 5:
+                errors[CONF_STATION_IDS] = "too_many_stations"
             else:
                 self._data[CONF_STATION_IDS] = station_ids
                 return await self.async_step_categories()
 
         data_schema = vol.Schema(
             {
-                vol.Required(CONF_STATION_IDS): vol.All(
-                    [vol.In(list(station_choices.keys()))],
-                    vol.Length(min=1, max=5),
-                ),
+                vol.Required(CONF_STATION_IDS): cv.multi_select(station_choices),
             },
             extra=vol.ALLOW_EXTRA,
         )
@@ -136,6 +134,7 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         categories = catalog.get_categories_for_stations(
             self._data[CONF_STATION_IDS]
         )
+        category_choices = {c: c for c in categories}
 
         if user_input is not None:
             categories_selected: list[str] = user_input.get(CONF_CATEGORIES, [])
@@ -147,10 +146,7 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         data_schema = vol.Schema(
             {
-                vol.Required(CONF_CATEGORIES): vol.All(
-                    [vol.In(categories)],
-                    vol.Length(min=1),
-                )
+                vol.Required(CONF_CATEGORIES): cv.multi_select(category_choices)
             },
             extra=vol.ALLOW_EXTRA,
         )
@@ -186,10 +182,7 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         data_schema = vol.Schema(
             {
-                vol.Optional(CONF_SIGNAL_IDS): vol.All(
-                    [vol.In(list(signal_choices.keys()))],
-                    vol.Length(max=50),
-                ),
+                vol.Optional(CONF_SIGNAL_IDS): cv.multi_select(signal_choices),
             },
             extra=vol.ALLOW_EXTRA,
         )

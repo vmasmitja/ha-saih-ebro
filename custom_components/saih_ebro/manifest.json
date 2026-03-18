@@ -1,7 +1,7 @@
 {
   "domain": "saih_ebro",
   "name": "SAIH Ebro",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "documentation": "https://github.com/vmasmitja/ha-saih-ebro",
   "issue_tracker": "https://github.com/vmasmitja/ha-saih-ebro/issues",
   "codeowners": ["@vmasmitja"],
