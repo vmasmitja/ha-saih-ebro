@@ -1,4 +1,4 @@
-[![SAIH Ebro integration logo](custom_components/saih_ebro/brand/logo.png)](https://www.saihebro.com/homepage/estado-cuenca-ebro)
+[![SAIH Ebro integration logo](https://raw.githubusercontent.com/vmasmitja/ha-saih-ebro/master/custom_components/saih_ebro/brand/logo.png)](https://www.saihebro.com/homepage/estado-cuenca-ebro)
 
 [![HACS][hacs-badge]](https://hacs.xyz/)
 [![Home Assistant][ha-badge]](https://www.home-assistant.io/)
