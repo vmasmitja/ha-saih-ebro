@@ -1,0 +1,135 @@
+[
+  {
+    "id": "A027C04TEMPA",
+    "name": "Temperatura agua Ebro en Tortosa",
+    "scope": "rio",
+    "zone": "ebro_baja",
+    "station_id": "A027",
+    "station_name": "Tortosa",
+    "category": "temperatura_agua",
+    "unit": "º C",
+    "device_class": "temperature",
+    "has_forecast": false
+  },
+  {
+    "id": "A027C17NRIO1",
+    "name": "Nivel Ebro en Tortosa",
+    "scope": "rio",
+    "zone": "ebro_baja",
+    "station_id": "A027",
+    "station_name": "Tortosa",
+    "category": "nivel_rio",
+    "unit": "m",
+    "device_class": null,
+    "has_forecast": true
+  },
+  {
+    "id": "A027C65QRIO1",
+    "name": "Caudal Ebro en Tortosa",
+    "scope": "rio",
+    "zone": "ebro_baja",
+    "station_id": "A027",
+    "station_name": "Tortosa",
+    "category": "caudal_rio",
+    "unit": "m³/s",
+    "device_class": null,
+    "has_forecast": true
+  },
+  {
+    "id": "A099C03NRIO1",
+    "name": "Nivel Guadalope en Caspe",
+    "scope": "rio",
+    "zone": "guadalope_baja",
+    "station_id": "A099",
+    "station_name": "Caspe",
+    "category": "nivel_rio",
+    "unit": "m",
+    "device_class": null,
+    "has_forecast": true
+  },
+  {
+    "id": "A099C65QRIO1",
+    "name": "Caudal Guadalope en Caspe",
+    "scope": "rio",
+    "zone": "guadalope_baja",
+    "station_id": "A099",
+    "station_name": "Caspe",
+    "category": "caudal_rio",
+    "unit": "m³/s",
+    "device_class": null,
+    "has_forecast": true
+  },
+  {
+    "id": "E023C17NEMBA",
+    "name": "Nivel embalse de Caspe",
+    "scope": "embalse",
+    "zone": "caspe",
+    "station_id": "E023",
+    "station_name": "Embalse de Caspe",
+    "category": "nivel_embalse",
+    "unit": "msnm",
+    "device_class": null,
+    "has_forecast": true
+  },
+  {
+    "id": "E023C65VEMBA",
+    "name": "Volumen embalse de Caspe",
+    "scope": "embalse",
+    "zone": "caspe",
+    "station_id": "E023",
+    "station_name": "Embalse de Caspe",
+    "category": "volumen_embalse",
+    "unit": "hm³",
+    "device_class": null,
+    "has_forecast": true
+  },
+  {
+    "id": "E023C82PORCE",
+    "name": "% volumen embalse de Caspe",
+    "scope": "embalse",
+    "zone": "caspe",
+    "station_id": "E023",
+    "station_name": "Embalse de Caspe",
+    "category": "porcentaje_volumen_embalse",
+    "unit": "%",
+    "device_class": null,
+    "has_forecast": true
+  },
+  {
+    "id": "C125C01QCAL3",
+    "name": "Caudal de impulsión a Tarragona",
+    "scope": "canal",
+    "zone": "canal_tarragona",
+    "station_id": "C125",
+    "station_name": "Impulsión a Tarragona",
+    "category": "caudal_canal",
+    "unit": "m³/s",
+    "device_class": null,
+    "has_forecast": false
+  },
+  {
+    "id": "C125C02QCAL1",
+    "name": "Caudal impulsión margen izquierda",
+    "scope": "canal",
+    "zone": "canal_tarragona",
+    "station_id": "C125",
+    "station_name": "Impulsión a Tarragona",
+    "category": "caudal_canal",
+    "unit": "m³/s",
+    "device_class": null,
+    "has_forecast": false
+  },
+  {
+    "id": "C125C03QCAL2",
+    "name": "Caudal impulsión margen derecha",
+    "scope": "canal",
+    "zone": "canal_tarragona",
+    "station_id": "C125",
+    "station_name": "Impulsión a Tarragona",
+    "category": "caudal_canal",
+    "unit": "m³/s",
+    "device_class": null,
+    "has_forecast": false
+  }
+]
+

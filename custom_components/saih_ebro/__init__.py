@@ -14,7 +14,16 @@ from homeassistant.helpers.update_coordinator import (
     UpdateFailed,
 )
 
-from .const import API_BASE_URL, DOMAIN, CONF_SIGNALS, DEFAULT_SIGNALS
+from .const import (
+    API_BASE_URL,
+    CONF_CATEGORIES,
+    CONF_SCOPE,
+    CONF_SIGNAL_IDS,
+    CONF_STATION_IDS,
+    CONF_ZONE,
+    DOMAIN,
+)
+from .signals_catalog import get_signals_catalog
 
 PLATFORMS: list[str] = ["sensor"]
 
@@ -69,11 +78,25 @@ class SaihEbroCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     api_key: str = entry.data[CONF_API_KEY]
-    raw_signals: str = entry.data.get(CONF_SIGNALS, "")
-    if raw_signals.strip():
-        signals = [s.strip() for s in raw_signals.split(",") if s.strip()]
+
+    catalog = get_signals_catalog(hass)
+    scope: str = entry.data[CONF_SCOPE]
+    zone: str = entry.data[CONF_ZONE]
+    station_ids: list[str] = entry.data[CONF_STATION_IDS]
+    categories: list[str] = entry.data[CONF_CATEGORIES]
+    signal_ids: list[str] = entry.data.get(CONF_SIGNAL_IDS, [])
+
+    if signal_ids:
+        selected = catalog.get_signals_by_ids(signal_ids)
     else:
-        signals = list(DEFAULT_SIGNALS)
+        selected = catalog.get_signals(
+            scope=scope,
+            zone=zone,
+            station_ids=station_ids,
+            categories=categories,
+        )
+
+    signals = [s.id for s in selected]
 
     coordinator = SaihEbroCoordinator(hass, api_key, signals)
     await coordinator.async_config_entry_first_refresh()
