@@ -161,7 +161,13 @@ Las familias de medición disponibles en el catálogo son:
 
 ### 🌍 Zonas hidrológicas (mapa completo + zonas oficiales)
 
-![Mapa de zonas hidrológicas SAIH Ebro](https://www.saihebro.com/images/mapas_hidrologia/mapaHG.jpg)
+<a href="https://www.saihebro.com/images/mapas_hidrologia/mapaHG.jpg" target="_blank" rel="noopener">
+  <img
+    src="images/mapaHG.jpg"
+    alt="Mapa de zonas hidrológicas SAIH Ebro"
+    style="max-width: 1100px; width: 100%; height: auto;"
+  />
+</a>
 
 Las zonas hidrológicas oficiales usadas por el asistente son:
 
