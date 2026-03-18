@@ -43,6 +43,11 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             step_id="user",
             data_schema=data_schema,
             errors=errors,
+            description_placeholders={
+                # hassfest disallows hardcoded URLs in translated strings, so we inject them here.
+                "open_data_url": "https://www.saihebro.com/datos/opendata",
+                "registration_url": "https://www.saihebro.com/usuarios/registro",
+            },
         )
 
     async def async_step_scope(

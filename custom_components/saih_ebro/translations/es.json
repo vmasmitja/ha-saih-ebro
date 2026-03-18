@@ -3,7 +3,7 @@
     "step": {
       "user": {
         "title": "SAIH Ebro",
-        "description": "Configura el acceso a la API de SAIH Ebro.\n\nSi aún no dispones de clave, puedes solicitar acceso a Open Data en:\n- https://www.saihebro.com/datos/opendata\n- https://www.saihebro.com/usuarios/registro (indicando en Observaciones que quieres acceso a Open Data API).",
+        "description": "Configura el acceso a la API de SAIH Ebro.\n\nSi aún no dispones de clave, puedes solicitar acceso a Open Data en:\n- {open_data_url}\n- {registration_url} (indicando en Observaciones que quieres acceso a Open Data API).",
         "data": {
           "api_key": "Clave API"
         }

@@ -1,13 +1,13 @@
 {
   "domain": "saih_ebro",
   "name": "SAIH Ebro",
-  "version": "0.1.9",
-  "documentation": "https://github.com/vmasmitja/ha-saih-ebro",
-  "issue_tracker": "https://github.com/vmasmitja/ha-saih-ebro/issues",
   "codeowners": ["@vmasmitja"],
   "config_flow": true,
-  "requirements": [],
+  "documentation": "https://github.com/vmasmitja/ha-saih-ebro",
+  "integration_type": "hub",
   "iot_class": "cloud_polling",
-  "integration_type": "hub"
+  "issue_tracker": "https://github.com/vmasmitja/ha-saih-ebro/issues",
+  "requirements": [],
+  "version": "0.1.9"
 }
 
