@@ -18,12 +18,14 @@ async def async_setup_entry(
     async_add_entities: AddEntitiesCallback,
 ) -> None:
     coordinator: SaihEbroCoordinator = hass.data[DOMAIN][entry.entry_id]
+    entry_id = entry.entry_id
 
     entities: list[SaihEbroSensor] = []
     for signal_id, meta in SENSORS_TORTOSA.items():
         entities.append(
             SaihEbroSensor(
                 coordinator=coordinator,
+                entry_id=entry_id,
                 signal_id=signal_id,
                 name=meta["name"],
                 unit=meta["unit"],
@@ -40,6 +42,7 @@ class SaihEbroSensor(CoordinatorEntity[SaihEbroCoordinator], SensorEntity):
     def __init__(
         self,
         coordinator: SaihEbroCoordinator,
+        entry_id: str,
         signal_id: str,
         name: str,
         unit: str | None,
@@ -48,7 +51,9 @@ class SaihEbroSensor(CoordinatorEntity[SaihEbroCoordinator], SensorEntity):
         super().__init__(coordinator)
         self._signal_id = signal_id
         self._attr_name = name
-        self._attr_unique_id = f"saih_ebro_tortosa_{signal_id.lower()}"
+        # Incluir entry_id permite tener varias configuraciones (p.ej. varias estaciones)
+        # sin colisión de unique_id entre sensores.
+        self._attr_unique_id = f"saih_ebro_{entry_id}_{signal_id.lower()}"
         self._attr_native_unit_of_measurement = unit
         self._attr_device_class = device_class
 
