@@ -17,6 +17,8 @@ class SignalMeta:
     name: str
     scope: str
     zone: str
+    hydro_zone_id: str | None
+    hydro_zone_name: str | None
     station_id: str
     station_name: str
     category: str
@@ -30,6 +32,34 @@ class SignalsCatalog:
         self._signals: list[SignalMeta] = signals
         self._by_id: dict[str, SignalMeta] = {s.id: s for s in signals}
 
+    # Official hydrological zones from SAIH maps (H1..H22 + HG "Toda la Cuenca").
+    # We keep this list stable so the config wizard doesn't show "raw" zone strings
+    # (like station local names or canal codes) for `scope == "Río"`.
+    _HYDRO_ZONE_NAMES: list[str] = [
+        "Alto Ebro (M.I.)",
+        "Semi Alta (Miranda)",
+        "Aragón-Irati",
+        "Medio Ebro (M.I.)",
+        "Gállego",
+        "Bajo Cinca",
+        "Segre",
+        "Bajo Ebro",
+        "Guadalope-Martín",
+        "Bajo Jalón",
+        "Semi Alta (Logroño)",
+        "Arga",
+        "Nogueras",
+        "Alto Ebro (M.D.)",
+        "Alto Aragón",
+        "Alto Cinca",
+        "Esera",
+        "Huerva-Aguas Vivas",
+        "Alto Jalón",
+        "Medio Ebro (M.D.)",
+        "Garona",
+        "Toda la Cuenca",
+    ]
+
     @property
     def signals(self) -> list[SignalMeta]:
         return self._signals
@@ -38,13 +68,29 @@ class SignalsCatalog:
         return sorted({s.scope for s in self._signals})
 
     def get_zones_for_scope(self, scope: str) -> list[str]:
+        if scope in {"Río", "Embalse"}:
+            # Always present the same 22 official hydrological zones for the wizard.
+            return list(self._HYDRO_ZONE_NAMES)
+
         return sorted({s.zone for s in self._signals if s.scope == scope})
 
     def get_stations(self, scope: str, zone: str) -> list[dict[str, Any]]:
         stations: dict[str, dict[str, Any]] = {}
+        hydro_zone_mode = scope in {"Río", "Embalse"} and zone in self._HYDRO_ZONE_NAMES
+
         for sig in self._signals:
-            if sig.scope != scope or sig.zone != zone:
+            if sig.scope != scope:
                 continue
+
+            if hydro_zone_mode:
+                # Prefer the official hydrological zone naming; fall back to legacy `zone`
+                # only when it already matches one of the official names.
+                if not (sig.hydro_zone_name == zone or sig.zone == zone):
+                    continue
+            else:
+                if sig.zone != zone:
+                    continue
+
             if sig.station_id not in stations:
                 stations[sig.station_id] = {
                     "id": sig.station_id,
@@ -73,11 +119,15 @@ class SignalsCatalog:
     ) -> list[SignalMeta]:
         st_set = set(station_ids)
         cat_set = set(categories)
+        hydro_zone_mode = scope in {"Río", "Embalse"} and zone in self._HYDRO_ZONE_NAMES
         return [
             s
             for s in self._signals
             if s.scope == scope
-            and s.zone == zone
+            and (
+                (hydro_zone_mode and (s.hydro_zone_name == zone or s.zone == zone))
+                or (not hydro_zone_mode and s.zone == zone)
+            )
             and s.station_id in st_set
             and s.category in cat_set
         ]
@@ -99,6 +149,8 @@ def _load_signals_from_file(path: Path) -> list[SignalMeta]:
                 name=raw.get("name", raw["id"]),
                 scope=raw["scope"],
                 zone=raw["zone"],
+                hydro_zone_id=raw.get("hydro_zone_id"),
+                hydro_zone_name=raw.get("hydro_zone_name"),
                 station_id=raw["station_id"],
                 station_name=raw.get("station_name", raw["station_id"]),
                 category=raw["category"],
