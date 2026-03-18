@@ -7,7 +7,7 @@ from homeassistant import config_entries
 from homeassistant.const import CONF_API_KEY
 from homeassistant.data_entry_flow import FlowResult
 
-from .const import DOMAIN
+from .const import DOMAIN, CONF_SIGNALS, DEFAULT_SIGNALS
 
 
 class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -20,17 +20,23 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
 
         if user_input is not None:
             api_key = user_input[CONF_API_KEY]
-            # Por ahora no validamos la API Key en línea desde el flujo de configuración.
-            # Cualquier error de autenticación o red se reflejará después en los logs
-            # y en el estado de los sensores.
+            signals = user_input.get(CONF_SIGNALS, "")
+
             return self.async_create_entry(
                 title="SAIH Ebro",
-                data={CONF_API_KEY: api_key},
+                data={
+                    CONF_API_KEY: api_key,
+                    CONF_SIGNALS: signals,
+                },
             )
 
         data_schema = vol.Schema(
             {
                 vol.Required(CONF_API_KEY): str,
+                vol.Optional(
+                    CONF_SIGNALS,
+                    default=",".join(DEFAULT_SIGNALS),
+                ): str,
             }
         )
 

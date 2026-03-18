@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 import logging
-from typing import Any
+from typing import Any, Iterable
 
 import async_timeout
 from homeassistant.config_entries import ConfigEntry
@@ -14,18 +14,20 @@ from homeassistant.helpers.update_coordinator import (
     UpdateFailed,
 )
 
-from .const import (
-    API_BASE_URL,
-    DOMAIN,
-    SENSORS_TORTOSA,
-)
+from .const import API_BASE_URL, DOMAIN, CONF_SIGNALS, DEFAULT_SIGNALS
 
 PLATFORMS: list[str] = ["sensor"]
 
 
 class SaihEbroCoordinator(DataUpdateCoordinator[dict[str, Any]]):
-    def __init__(self, hass: HomeAssistant, api_key: str) -> None:
+    def __init__(
+        self,
+        hass: HomeAssistant,
+        api_key: str,
+        signals: Iterable[str],
+    ) -> None:
         self._api_key = api_key
+        self._signals = list(signals)
         # SAIH Ebro actualmente presenta problemas de cadena de certificados
         # intermedios. Usamos verify_ssl=False solo para esta integración.
         self._session = async_get_clientsession(hass, verify_ssl=False)
@@ -36,9 +38,13 @@ class SaihEbroCoordinator(DataUpdateCoordinator[dict[str, Any]]):
             update_interval=timedelta(minutes=5),
         )
 
+    @property
+    def signals(self) -> list[str]:
+        return self._signals
+
     async def _async_update_data(self) -> dict[str, Any]:
         params = {
-            "senal": ",".join(SENSORS_TORTOSA.keys()),
+            "senal": ",".join(self._signals),
             "inicio": "",
             "apikey": self._api_key,
         }
@@ -63,7 +69,13 @@ class SaihEbroCoordinator(DataUpdateCoordinator[dict[str, Any]]):
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     api_key: str = entry.data[CONF_API_KEY]
-    coordinator = SaihEbroCoordinator(hass, api_key)
+    raw_signals: str = entry.data.get(CONF_SIGNALS, "")
+    if raw_signals.strip():
+        signals = [s.strip() for s in raw_signals.split(",") if s.strip()]
+    else:
+        signals = list(DEFAULT_SIGNALS)
+
+    coordinator = SaihEbroCoordinator(hass, api_key, signals)
     await coordinator.async_config_entry_first_refresh()
 
     hass.data.setdefault(DOMAIN, {})

@@ -21,15 +21,16 @@ async def async_setup_entry(
     entry_id = entry.entry_id
 
     entities: list[SaihEbroSensor] = []
-    for signal_id, meta in SENSORS_TORTOSA.items():
+    for signal_id in coordinator.signals:
+        meta = SENSORS_TORTOSA.get(signal_id, {})
         entities.append(
             SaihEbroSensor(
                 coordinator=coordinator,
                 entry_id=entry_id,
                 signal_id=signal_id,
-                name=meta["name"],
-                unit=meta["unit"],
-                device_class=meta["device_class"],
+                name=meta.get("name"),
+                unit=meta.get("unit"),
+                device_class=meta.get("device_class"),
             )
         )
 
@@ -44,7 +45,7 @@ class SaihEbroSensor(CoordinatorEntity[SaihEbroCoordinator], SensorEntity):
         coordinator: SaihEbroCoordinator,
         entry_id: str,
         signal_id: str,
-        name: str,
+        name: str | None,
         unit: str | None,
         device_class: str | None,
     ) -> None:
