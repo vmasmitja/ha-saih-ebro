@@ -4,83 +4,203 @@
 [![Home Assistant][ha-badge]](https://www.home-assistant.io/)
 [![GitHub release][release-badge]](https://github.com/vmasmitja/ha-saih-ebro/releases)
 
-## SAIH Ebro integration for Home Assistant
+# SAIH Ebro (Open Data) for Home Assistant
 
-Integración / Integration for Home Assistant to consume SAIH Ebro Open Data API (reservoirs, river flows and levels, meteorology, water quality, etc.).
+## English
 
-Se distribuye como integración personalizada y está pensada para ser instalable vía HACS.
+Integrate **SAIH Ebro Open Data API** in Home Assistant to expose measurements from river gauges, reservoirs and canal stations, plus meteorology.
 
-### Overview (English)
+### ⚙️ Configuration
 
-- **Domain**: `saih_ebro`
-- **Platform**: `sensor`
-- **Data source**: SAIH Ebro Open Data API (`https://www.saihebro.com/datos/opendata`)
-- **What you can do**:
-  - Select **scope** (Río, Embalse, Canal, Meteorología).
-  - Select **hydrological zone** (official H1..H22 / HG map zones).
-  - Pick one or more **stations** and **categories** (level, flow, temperature, etc.).
-  - Optionally refine by individual **signals**.
+1. Install via **HACS**.
+2. Add the integration in Home Assistant.
+3. Use the config wizard:
+   - **API Key**: paste your personal Open Data API key.
+   - **Scope**: choose `River`, `Reservoir`, `Canal` or `Meteorology`.
+   - **Zone**: choose one official SAIH hydrological zone (H1..H22 / HG).
+   - **Stations**: pick one or more stations inside that zone.
+   - **Data types**: pick the measurements you want (level, flow, precipitation, etc.).
+   - **Signals (optional)**: further refine by specific signals.
 
-The config flow is fully localized (Spanish + English). The English strings live in `translations/en.json` and the Spanish ones in `translations/es.json`.
+The wizard is localized using your Home Assistant language. In English it shows **River** (not “Río”).
+Zone and station names are proper nouns and keep their official spelling.
 
-### Descripción (Español)
+### ⬇️ Installation & ♻️ Update (HACS)
 
-- **Dominio**: `saih_ebro`  
-- **Plataforma**: `sensor`  
-- **Fuente de datos**: API Open Data de SAIH Ebro (`https://www.saihebro.com/datos/opendata`)
-- **Qué permite**:
-  - Elegir **ámbito** (Río, Embalse, Canal, Meteorología).
-  - Elegir **zona hidrológica oficial** (H1..H22 / HG).
-  - Seleccionar una o varias **estaciones** y **tipos de datos** (nivel, caudal, temperatura, etc.).
-  - Opcionalmente afinar por **señales** concretas.
+Use HACS to install / update this integration. The repository is configured for HACS releases.
 
-El asistente de configuración está traducido y pensado para poder proponerse al **core de Home Assistant** sin depender del castellano.
+### 🔑 How to obtain an API Key
 
-### Data source & attribution / Fuente de datos y atribución
+To use the Open Data API you need an account with explicit access.
 
-This integration consumes data published by **SAIH Ebro** (Sistema Automático de Información Hidrológica del Ebro) through its Open Data API.
+1. Register: `https://www.saihebro.com/usuarios/registro`
+2. In the form, write in **Remarks / Observaciones** that you want access to **Open Data API**.
 
-- **Owner of the information and associated brands (SAIH Ebro, CHE, etc.)**: [Confederación Hidrográfica del Ebro](https://chebro.es/).
-- **SAIH Ebro web (basin status / maps / resources)**: `https://www.saihebro.com/homepage/estado-cuenca-ebro`
-- **Open Data area / login**: `https://www.saihebro.com/datos/opendata`
+### 📊 Provided entities
+
+This integration creates a `sensor` entity **for each selected signal**.
+The available measurement families currently exposed by the catalog are:
+
+| Category | Applies to scope | Measurement | Unit |
+|---|---|---:|---|
+| Nivel río | Río | River level | m |
+| Caudal río | Río | River flow | m³/s |
+| Nivel embalse | Embalse | Reservoir level | msnm |
+| Volumen embalse | Embalse | Reservoir volume | hm³ |
+| % volumen embalse | Embalse | Reservoir volume percentage | % |
+| Nivel canal | Canal | Canal level | m |
+| Cota lámina | Canal | Water surface elevation | m |
+| Caudal canal | Canal | Canal flow | m³/s |
+| Nivel piezométrico | Canal | Piezometric level | m |
+| Temperatura | Meteorología | Temperature | º C |
+| Precipitación QM | Meteorología | Precipitation (QM) | mm |
+| Precipitación 24h | Meteorología | 24h precipitation | mm |
+| Precipitación acumulada | Meteorología | Accumulated precipitation | mm |
+| Velocidad racha | Meteorología | Wind gust speed | m/s |
+| Insolación acumulada | Meteorología | Accumulated insolation | h |
+| Equivalente en agua | Meteorología | Water equivalent | mm |
+| Altura de nieve | Meteorología | Snow height | cm |
+
+### 🌍 Hydrological zones (full basin map + official zones)
+
+![SAIH Ebro hydrological zones map](https://www.saihebro.com/images/mapas_hidrologia/mapaHG.jpg)
+
+Official hydrological zones used by the integration wizard:
+
+| Code | Zone name |
+|---|---|
+| H1 | Alto Ebro (M.I.) |
+| H2 | Semi Alta (Miranda) |
+| H3 | Aragón-Irati |
+| H4 | Medio Ebro (M.I.) |
+| H5 | Gállego |
+| H6 | Bajo Cinca |
+| H7 | Segre |
+| H8 | Bajo Ebro |
+| H9 | Guadalope-Martín |
+| H10 | Bajo Jalón |
+| H11 | Semi Alta (Logroño) |
+| H12 | Arga |
+| H13 | Nogueras |
+| H15 | Alto Ebro (M.D.) |
+| H16 | Alto Aragón |
+| H17 | Alto Cinca |
+| H18 | Esera |
+| H19 | Huerva-Aguas Vivas |
+| H20 | Alto Jalón |
+| H21 | Medio Ebro (M.D.) |
+| H22 | Garona |
+| HG | Toda la Cuenca |
+
+### Data source & attribution
+
+This integration consumes data published by **SAIH Ebro** through its Open Data API.
+
+- Owner / associated brands: [Confederación Hidrográfica del Ebro (CHE)](https://chebro.es/)
+- SAIH Ebro web: `https://www.saihebro.com/homepage/estado-cuenca-ebro`
+- Open Data area / login: `https://www.saihebro.com/datos/opendata`
 
 Notes:
-- Data shown by SAIH Ebro may be **provisional** and subject to revision (see the notices on their own website).
+- Data may be **provisional** and subject to revision.
 - This integration is **not officially affiliated** with SAIH Ebro.
 
-### How to obtain an API Key / Cómo obtener una API Key
+## Español
 
-To use the API you need an account and explicit access to the **Open Data API**.
+Integra la **API Open Data de SAIH Ebro** en Home Assistant para exponer mediciones de estaciones de río, embalses y canales, además de meteorología.
 
-1. Register at: `https://www.saihebro.com/usuarios/registro`  
-2. In the form, in the **Remarks / Observaciones** field, explicitly write that you request access to **Open Data API**.
+### ⚙️ Configuración
 
-If you do not have an API Key (or it is not enabled), the API may answer with an error similar to:
+1. Instala mediante **HACS**.
+2. Añade la integración en Home Assistant.
+3. Usa el asistente de configuración:
+   - **API Key**: pega tu clave personal de Open Data API.
+   - **Ámbito / Scope**: elige `Río`, `Embalse`, `Canal` o `Meteorología` (o **River/Reservoir/Canal/Meteorology** en inglés).
+   - **Zona**: selecciona una zona hidrológica oficial de SAIH (H1..H22 / HG).
+   - **Estaciones**: elige una o varias estaciones dentro de esa zona.
+   - **Tipos de datos**: elige las mediciones deseadas (nivel, caudal, precipitación, etc.).
+   - **Señales (opcional)**: afina por señales concretas.
 
-```text
-Unauthorized, use this url (https://www.saihebro.com/datos/opendata), to know how to get data from SAIH. You need an account. You can register in url (https://www.saihebro.com/usuarios/registro). In the user registration page, write in the Remarks field that you want to access Open Data API%
-```
+El asistente está traducido usando el idioma de tu Home Assistant. En inglés muestra **River** (no “Río”).  
+Los nombres de zonas y estaciones son propios y mantienen su ortografía oficial.
 
-### Logos and images / Logos e imágenes
+### ⬇️ Instalación & ♻️ Actualización (HACS)
 
-This repository is prepared to use:
+Usa HACS para instalar / actualizar esta integración. El repo está preparado con releases para HACS.
 
-- A **project logo** for HACS/Home Assistant (provided as `custom_components/saih_ebro/brand/logo.png`).
-- An **icon** for HACS/Home Assistant (provided as `custom_components/saih_ebro/brand/icon.png`).
+### 🔑 Cómo obtener una API Key
 
-If you want to update the assets later, you can replace the PNG files in `custom_components/saih_ebro/brand/` and update the README if needed.
+Para usar la Open Data API necesitas una cuenta con acceso explícito:
 
-In addition, you should always mention SAIH Ebro / Confederación Hidrográfica del Ebro as the **data source**, for example:
+1. Regístrate: `https://www.saihebro.com/usuarios/registro`
+2. En el formulario, en **Remarks / Observaciones**, indica que quieres acceso a **Open Data API**.
 
-- Text used in the sensors:  
-  `Datos proporcionados por SAIH Ebro – Confederación Hidrográfica del Ebro (CHE).`
-- Link to `https://chebro.es/` and/or `https://www.saihebro.com/homepage/estado-cuenca-ebro`.
+### 📊 Entidades proporcionadas
 
-On the SAIH Ebro website there is an official logo available as SVG:
+Esta integración crea una entidad `sensor` **por cada señal seleccionada**.
+Las familias de medición disponibles en el catálogo son:
 
-- `https://www.saihebro.com/images/logo-SAIH-pie.svg`
+| Categoría | Ámbito | Medición | Unidad |
+|---|---|---:|---|
+| Nivel río | Río | Nivel de río | m |
+| Caudal río | Río | Caudal de río | m³/s |
+| Nivel embalse | Embalse | Nivel de embalse | msnm |
+| Volumen embalse | Embalse | Volumen de embalse | hm³ |
+| % volumen embalse | Embalse | % de volumen de embalse | % |
+| Nivel canal | Canal | Nivel de canal | m |
+| Cota lámina | Canal | Cota de lámina de agua | m |
+| Caudal canal | Canal | Caudal de canal | m³/s |
+| Nivel piezométrico | Canal | Nivel piezométrico | m |
+| Temperatura | Meteorología | Temperatura | º C |
+| Precipitación QM | Meteorología | Precipitación QM | mm |
+| Precipitación 24h | Meteorología | Precipitación 24h | mm |
+| Precipitación acumulada | Meteorología | Precipitación acumulada | mm |
+| Velocidad racha | Meteorología | Rachas de viento | m/s |
+| Insolación acumulada | Meteorología | Insolación acumulada | h |
+| Equivalente en agua | Meteorología | Equivalente en agua | mm |
+| Altura de nieve | Meteorología | Altura de nieve | cm |
 
-The original logo is **not redistributed** in this repository; instead we just reference it and keep a separate, neutral logo for the Home Assistant integration.
+### 🌍 Zonas hidrológicas (mapa completo + zonas oficiales)
+
+![Mapa de zonas hidrológicas SAIH Ebro](https://www.saihebro.com/images/mapas_hidrologia/mapaHG.jpg)
+
+Las zonas hidrológicas oficiales usadas por el asistente son:
+
+| Código | Zona |
+|---|---|
+| H1 | Alto Ebro (M.I.) |
+| H2 | Semi Alta (Miranda) |
+| H3 | Aragón-Irati |
+| H4 | Medio Ebro (M.I.) |
+| H5 | Gállego |
+| H6 | Bajo Cinca |
+| H7 | Segre |
+| H8 | Bajo Ebro |
+| H9 | Guadalope-Martín |
+| H10 | Bajo Jalón |
+| H11 | Semi Alta (Logroño) |
+| H12 | Arga |
+| H13 | Nogueras |
+| H15 | Alto Ebro (M.D.) |
+| H16 | Alto Aragón |
+| H17 | Alto Cinca |
+| H18 | Esera |
+| H19 | Huerva-Aguas Vivas |
+| H20 | Alto Jalón |
+| H21 | Medio Ebro (M.D.) |
+| H22 | Garona |
+| HG | Toda la Cuenca |
+
+### Fuente de datos y atribución
+
+Esta integración consume datos publicados por **SAIH Ebro** a través de su API Open Data.
+
+- Propietario / marcas asociadas: [Confederación Hidrográfica del Ebro (CHE)](https://chebro.es/)
+- Web SAIH Ebro: `https://www.saihebro.com/homepage/estado-cuenca-ebro`
+- Área Open Data / login: `https://www.saihebro.com/datos/opendata`
+
+Notas:
+- Los datos pueden ser **provisionales** y sujetos a revisión.
+- Esta integración no está afiliada oficialmente a SAIH Ebro.
 
 ---
 

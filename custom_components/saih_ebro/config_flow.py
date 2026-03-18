@@ -53,13 +53,41 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         scopes = catalog.get_scopes()
 
         if user_input is not None:
-            scope = user_input[CONF_SCOPE]
-            self._data[CONF_SCOPE] = scope
+            # We validate/display scope using localized labels.
+            # `cv.multi_select()` returns a list, but we enforce selecting exactly one item.
+            scope_list: list[str] = user_input[CONF_SCOPE]
+            self._data[CONF_SCOPE] = scope_list[0]
             return await self.async_step_zone()
+
+        # Localize the *label* shown in the UI for scope options.
+        # The underlying value (used by the catalog/filtering) stays the same.
+        lang = (self.hass.config.language or "").lower()
+        is_english = lang.startswith("en")
+        if is_english:
+            scope_labels = {
+                "Río": "River",
+                "Embalse": "Reservoir",
+                "Canal": "Canal",
+                "Meteorología": "Meteorology",
+            }
+        else:
+            # Spanish (and default fallback) keeps the existing catalog values.
+            scope_labels = {
+                "Río": "Río",
+                "Embalse": "Embalse",
+                "Canal": "Canal",
+                "Meteorología": "Meteorología",
+            }
+
+        scope_choices = {s: scope_labels.get(s, s) for s in scopes}
 
         data_schema = vol.Schema(
             {
-                vol.Required(CONF_SCOPE): vol.In(scopes),
+                vol.Required(CONF_SCOPE): vol.All(
+                    cv.multi_select(scope_choices),
+                    # enforce "single choice" while still showing localized labels
+                    vol.Length(min=1, max=1),
+                ),
             },
             extra=vol.ALLOW_EXTRA,
         )

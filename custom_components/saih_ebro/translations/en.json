@@ -7,9 +7,47 @@
         "data": {
           "api_key": "API Key"
         }
+      },
+      "scope": {
+        "title": "Scope",
+        "description": "Select the measurement scope (river, reservoir or canal).",
+        "data": {
+          "scope": "Scope"
+        }
+      },
+      "zone": {
+        "title": "Zone",
+        "description": "Select the zone inside the chosen scope.",
+        "data": {
+          "zone": "Zone"
+        }
+      },
+      "stations": {
+        "title": "Stations",
+        "description": "Select one or more stations.",
+        "data": {
+          "station_ids": "Stations"
+        }
+      },
+      "categories": {
+        "title": "Data types",
+        "description": "Choose which data types you want for the selected stations.",
+        "data": {
+          "categories": "Data types"
+        }
+      },
+      "signals": {
+        "title": "Signals",
+        "description": "Optionally refine by selecting specific signals.",
+        "data": {
+          "signal_ids": "Signals"
+        }
       }
     },
     "error": {
+      "station_required": "You must select at least one station.",
+      "category_required": "You must select at least one data type.",
+      "too_many_signals": "You selected too many signals.",
       "invalid_api_key": "Unable to validate the API Key. Please check it."
     }
   }
