@@ -34,7 +34,8 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         data_schema = vol.Schema(
             {
                 vol.Required(CONF_API_KEY): str,
-            }
+            },
+            extra=vol.ALLOW_EXTRA,
         )
 
         return self.async_show_form(
@@ -58,7 +59,8 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         data_schema = vol.Schema(
             {
                 vol.Required(CONF_SCOPE): vol.In(scopes),
-            }
+            },
+            extra=vol.ALLOW_EXTRA,
         )
         return self.async_show_form(
             step_id="scope",
@@ -81,7 +83,8 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         data_schema = vol.Schema(
             {
                 vol.Required(CONF_ZONE): vol.In(zones),
-            }
+            },
+            extra=vol.ALLOW_EXTRA,
         )
         return self.async_show_form(
             step_id="zone",
@@ -116,7 +119,8 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     [vol.In(list(station_choices.keys()))],
                     vol.Length(min=1, max=5),
                 ),
-            }
+            },
+            extra=vol.ALLOW_EXTRA,
         )
         return self.async_show_form(
             step_id="stations",
@@ -147,7 +151,8 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     [vol.In(categories)],
                     vol.Length(min=1),
                 )
-            }
+            },
+            extra=vol.ALLOW_EXTRA,
         )
         return self.async_show_form(
             step_id="categories",
@@ -185,7 +190,8 @@ class SaihEbroConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                     [vol.In(list(signal_choices.keys()))],
                     vol.Length(max=50),
                 ),
-            }
+            },
+            extra=vol.ALLOW_EXTRA,
         )
         return self.async_show_form(
             step_id="signals",
