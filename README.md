@@ -1,3 +1,9 @@
+[![SAIH Ebro integration logo](custom_components/saih_ebro/brand/logo.png)](https://www.saihebro.com/homepage/estado-cuenca-ebro)
+
+[![HACS][hacs-badge]](https://hacs.xyz/)
+[![Home Assistant][ha-badge]](https://www.home-assistant.io/)
+[![GitHub release][release-badge]](https://github.com/vmasmitja/ha-saih-ebro/releases)
+
 ## SAIH Ebro integration for Home Assistant
 
 Integración / Integration for Home Assistant to consume SAIH Ebro Open Data API (reservoirs, river flows and levels, meteorology, water quality, etc.).
@@ -59,13 +65,10 @@ Unauthorized, use this url (https://www.saihebro.com/datos/opendata), to know ho
 
 This repository is prepared to use:
 
-- A **project logo** for the custom integration and HACS (for example: `images/logo.png`).
-- A simpler **icon** for small contexts (for example: `images/icon.png`).
+- A **project logo** for HACS/Home Assistant (provided as `custom_components/saih_ebro/brand/logo.png`).
+- An **icon** for HACS/Home Assistant (provided as `custom_components/saih_ebro/brand/icon.png`).
 
-You can place your own PNG/SVG assets in the `images/` folder and reference them from:
-- Home Assistant / HACS metadata (standard `logo.png` / `icon.png` files).
-- This README, with something like:
-  - `![SAIH Ebro integration logo](images/logo.png)`
+If you want to update the assets later, you can replace the PNG files in `custom_components/saih_ebro/brand/` and update the README if needed.
 
 In addition, you should always mention SAIH Ebro / Confederación Hidrográfica del Ebro as the **data source**, for example:
 
@@ -78,4 +81,10 @@ On the SAIH Ebro website there is an official logo available as SVG:
 - `https://www.saihebro.com/images/logo-SAIH-pie.svg`
 
 The original logo is **not redistributed** in this repository; instead we just reference it and keep a separate, neutral logo for the Home Assistant integration.
+
+---
+
+[hacs-badge]: https://img.shields.io/badge/HACS-Frontend-yellow.svg?style=for-the-badge
+[ha-badge]: https://img.shields.io/badge/Home%20Assistant-2026.2.0-blue.svg?style=for-the-badge
+[release-badge]: https://img.shields.io/github/v/release/vmasmitja/ha-saih-ebro?style=for-the-badge
 
